@@ -25,7 +25,7 @@ write_file <- Benchmark("file-write",
       if (file_type == "feather") {
         return(function(...) arrow::write_feather(..., compression = compression))
       } else if (file_type == "parquet") {
-        return(function(...) arrow::write_parquet(make_table_parquet_compatible(...), compression = compression))
+        return(function(...) arrow::write_parquet(..., compression = compression))
       } else if (file_type == "fst") {
         # fst is always zstd, just a question of what level of compression
         level <- ifelse(compression == "uncompressed", 0, 50)

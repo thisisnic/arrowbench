@@ -78,3 +78,12 @@ test_that("sync_and_drop_caches() works", {
     "arrowbench.purge_failed" = NULL
   )
 })
+
+test_that("make_table_parquet_compatible upcasts decimal32 and decimal64", {
+  tbl <- arrow_table(x = 1.1, y = 2.2, z = 3.3, schema = schema(x = decimal32(5,4), y = decimal64(5,4), z = decimal256(5,4)))
+  new_tbl <- make_table_parquet_compatible(tbl)
+  expect_equal(
+    capture.output(schema(new_tbl)),
+    c("Schema", "x: decimal128(5, 4)", "y: decimal128(5, 4)", "z: decimal256(5, 4)")
+  )
+})

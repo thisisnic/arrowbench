@@ -172,11 +172,11 @@ local_data_dir <- function() {
 # Temp fix for if writing to Parquet while decimal32 and 64 are implemented in Arrow but not Parquet
 # https://github.com/apache/arrow/issues/44345
 make_table_parquet_compatible <- function(tbl){
-  sch <- schema(tbl)
+  sch <- arrow::schema(tbl)
   parquet_compatible_schema <- arrow::schema(lapply(sch, function(x){
     type <- x$type
     if(inherits(type, c("Decimal64Type", "Decimal32Type"))){
-      field(
+      arrow::field(
         name = x$name,
         type = arrow::decimal128(precision = type$precision(), scale = type$scale()),
         nullable = x$nullable

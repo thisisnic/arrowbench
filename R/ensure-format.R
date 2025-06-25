@@ -138,7 +138,7 @@ get_write_function <- function(format, compression, chunk_size = NULL) {
   if (format == "feather") {
     return(function(...) arrow::write_feather(..., chunk_size = chunk_size %||% 65536L, compression = compression))
   } else if (format == "parquet") {
-    return(function(...) arrow::write_parquet(..., chunk_size = chunk_size, compression = compression))
+    return(function(...) arrow::write_parquet(make_table_parquet_compatible(...), chunk_size = chunk_size, compression = compression))
   } else if (format == "fst") {
     # fst is always zstd, just a question of what level of compression
     level <- ifelse(compression == "uncompressed", 0, 50)

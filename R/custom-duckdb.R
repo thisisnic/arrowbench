@@ -68,7 +68,9 @@ export_custom_duckdb <- function(sql, sink, dbdir = ":memory:") {
   # in R supports streaming
   reader <- duckdb::duckdb_fetch_record_batch(res)
   table <- reader$read_table()
-  arrow::write_parquet(table, sink)
+
+  # make_table_parquet_compatible can be removed when Parquet supports decimal32/64
+  arrow::write_parquet(make_table_parquet_compatible(table), sink)
 
   sink
 }

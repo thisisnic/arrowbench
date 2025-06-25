@@ -64,7 +64,7 @@ for (q in c(1:22)) {
   print(waldo::compare(as.data.frame(result_arrow), result_dplyr, tolerance = 0.01, x_arg = "arrow", y_arg = "dplyr"))
   print(waldo::compare(as.data.frame(result_arrow), result_duckdb, tolerance = 0.01, x_arg = "arrow", y_arg = "duckdb"))
 
-  write_parquet(result_arrow, glue::glue("./answers/scale-factor-{sf}/tpch-q{stringr::str_pad(query, 2, pad = '0')}-sf{sf}.parquet"))
+  write_parquet(make_table_parquet_compatible(result_arrow), glue::glue("./answers/scale-factor-{sf}/tpch-q{stringr::str_pad(query, 2, pad = '0')}-sf{sf}.parquet"))
 }
 
 # clean up duckdb database file
